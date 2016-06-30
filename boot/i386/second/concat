@@ -1,0 +1,7 @@
+#!/bin/sh
+rm boot
+make clean
+make
+cat ../first second > boot
+./install /dev/ad4s4 boot
+reboot

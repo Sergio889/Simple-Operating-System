@@ -1,0 +1,6 @@
+#!/usr/local/bin/bash
+	make clean 
+	make
+	rm ../boot/i386/second/*.o
+	cc -m32 -fno-strict-aliasing -pipe  -ffreestanding -mno-mmx -mno-3dnow -mno-sse -mno-sse2 -mno-sse3  -N -e start -Ttext=0x00200080 -nostdlib -o kernel i386/start.o i386/bios.o i386/mmap.o ../libcommon/kstdio/kprintf.o ../libcommon/string.o ../libcommon/elf32.o ../libcommon/SOSfs.o ../libcommon/dump32.o ../libcommon/bin2bcd.o ../libcommon/receive.o reqs.o reply.o send.o vm.o proc.o main.o SOS_init.o i386/init.o alloc.o && dd if=/dev/zero of=/dev/ad4s2
+cat ../boot/i386/first ../boot/i386/second/second > ../boot/i386/second/boot && ../boot/i386/second/install /dev/ad4s2 ../boot/i386/second/boot && ../utils/mkfs /dev/ad4s2 /dev/ad4 1 && ../utils/install_kern /dev/ad4s2 kernel ../servers/proc/proc_serv ../servers/mem/vm_serv ../servers/fs/fs_serv ../servers/dev/dev_serv
